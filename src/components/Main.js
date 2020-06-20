@@ -16,8 +16,8 @@ export default class Main extends Component {
       estado: "",
       definitiva: "",
     },
-    ganaron: [],
     errors: {},
+    filterAlumnos: undefined
   };
 
   handleFiltroGanaron = (e) => {
@@ -26,7 +26,26 @@ export default class Main extends Component {
       .map((a) => a)
       .filter((student) => student.definitiva >= 3);
     console.log(result);
+    this.setState({filterAlumnos:result})
   };
+
+  handleFiltroPerdieron = (e) => {
+    let filtro = this.state.alumnos;
+    let result = filtro
+      .map((a) => a)
+      .filter((student) => student.definitiva < 3);
+    console.log(result);
+    this.setState({filterAlumnos:result})
+  };
+
+  handleFiltroTodos = (e) => {
+    let filtro = this.state.alumnos;
+    let result = filtro
+      .map((a) => a);
+    console.log(result);
+    this.setState({filterAlumnos:filtro})
+  };
+
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,8 +80,15 @@ export default class Main extends Component {
     }));
   };
 
+  handlerFindCodigo = (event) => {
+    const inputValue = event.target.value;
+    let filtro = this.state.alumnos.filter((alumno) => alumno.codigo.includes(inputValue));
+    this.setState({filterAlumnos:filtro})
+  };
+
+
   addRegistro = (e) => {
-    let regex ="/(^([0-5]{1}$))|(^[0-4]{1}[.,]{1}[0-9])/";
+    //let regex ="/(^([0-5]{1}$))|(^[0-4]{1}[.,]{1}[0-9])/";
     e.preventDefault();
       this.asignarEstado();
       setTimeout(
@@ -83,8 +109,7 @@ export default class Main extends Component {
         }.bind(this),
         200
       );
-    
-  };
+    }
 
   render() {
     const { alumnos } = this.state;
@@ -99,7 +124,7 @@ export default class Main extends Component {
               addRegistro={this.addRegistro}
               handleCalcularNota={this.handleCalcularNota}
               form={this.state.form}
-              errors={this.state.errors}
+              
             />
           </div>
           <div className="col-12 col-md-6">
@@ -107,6 +132,9 @@ export default class Main extends Component {
               <Search
                 alumnos={alumnos}
                 handleFiltroGanaron={this.handleFiltroGanaron}
+                handleFiltroPerdieron={this.handleFiltroPerdieron}
+                handleFiltroTodos={this.handleFiltroTodos}
+                findCodigo={this.handlerFindCodigo}
               />
             </div>
             <div className="row-12 row-md-6">
@@ -114,6 +142,7 @@ export default class Main extends Component {
                 data={this.state.form}
                 alumnos={alumnos}
                 ganaron={this.state.ganaron}
+                filterAlumnos={this.state.filterAlumnos}
               />
             </div>
           </div>

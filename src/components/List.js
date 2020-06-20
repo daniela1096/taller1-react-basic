@@ -2,7 +2,7 @@ import React from 'react'
 import Student from './Student'
 import "./Search.css";
 
-export default function List({alumnos}) {
+export default function List({alumnos, filterAlumnos}) {
     return (
         <div className="col m-2 pd-2 bg-light">
         <div className="col my-2 pd-2">
@@ -18,7 +18,7 @@ export default function List({alumnos}) {
               </tr>
             </thead>
             <tbody>
-             {alumnos.map((alumno, index) => <Student key={index} alumno={alumno}/>)}
+             {filterAlumnos === undefined ? alumnos.map((alumno, index) => <Student key={index} alumno={alumno}/>) : filterAlumnos.map((alumno, index) => <Student key={index} alumno={alumno}/>)}
             </tbody>
           </table>
         </div>

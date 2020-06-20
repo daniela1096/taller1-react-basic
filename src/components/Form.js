@@ -4,17 +4,12 @@ export default function Form({
   handleChange,
   addRegistro,
   handleCalcularNota,
-  form,
-  errors
+  form
 }) {
   return (
     <div>
       <form>
         <div>
-          <div>
-
-          </div>
-          {errors.codigo}
           <div>
             <label htmlFor="codigo">Código</label>
             <input
